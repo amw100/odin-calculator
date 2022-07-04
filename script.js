@@ -8,6 +8,7 @@ const display = document.querySelector(".display-text");
 let currentNum = '';
 let previousNum = '';
 let currentOperator = undefined;
+let clickedEquals = false;
 
 initialize();
 
@@ -47,24 +48,32 @@ function updateDisplay(){
 }
 
 function appendNumber(number){
+    if(clickedEquals){
+        clickedEquals = false;
+        currentNum = '';
+    }
     currentNum += number.toString();
 }
 
 function chooseOperator(operator){
+    clickedEquals = false;
     if (currentNum === '') return;
     if (previousNum !== '') compute();
     currentOperator = operator;
     previousNum = currentNum;
+    updateDisplay();
     currentNum = '';
 }
 
 function clr(){
+    clickedEquals = false;
     currentNum = '';
     previousNum = '';
     currentOperator = undefined;
 }
 
 function del(){
+    clickedEquals = false;
     currentNum = currentNum.toString().slice(0,-1);
 }
 
@@ -72,7 +81,7 @@ function compute(){
     prev = parseFloat(previousNum);
     cur = parseFloat(currentNum);
     if(isNaN(prev) || isNaN(cur)) return;
-    currentNum = operate(previousNum, currentNum, currentOperator);
+    currentNum = operate(prev, cur, currentOperator);
     console.log(currentNum);
     currentOperator = undefined;
     previousNum = '';
@@ -88,12 +97,12 @@ function initialize(){
     operatorButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             chooseOperator(btn.innerHTML);
-            updateDisplay();
         });
     });
     eqlbtn.addEventListener('click', () => {
         compute()
         updateDisplay();
+        clickedEquals = true;
     });
     clearbtn.addEventListener('click', () => {
         clr();
