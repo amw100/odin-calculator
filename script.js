@@ -43,7 +43,7 @@ function divide(num1, num2){
 }
 
 function updateDisplay(){
-    display.nodeValue = currentNum.toString();
+    display.value = currentNum.toString();
 }
 
 function appendNumber(number){
@@ -73,6 +73,7 @@ function compute(){
     cur = parseFloat(currentNum);
     if(isNaN(prev) || isNaN(cur)) return;
     currentNum = operate(previousNum, currentNum, currentOperator);
+    console.log(currentNum);
     currentOperator = undefined;
     previousNum = '';
 }
@@ -91,7 +92,7 @@ function initialize(){
         });
     });
     eqlbtn.addEventListener('click', () => {
-        operate(previousNum, currentNum, currentOperator);
+        compute()
         updateDisplay();
     });
     clearbtn.addEventListener('click', () => {
