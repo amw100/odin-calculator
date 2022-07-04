@@ -3,6 +3,7 @@ const operatorButtons = document.querySelectorAll(".operator");
 const clearbtn = document.querySelector(".clear");
 const delbtn = document.querySelector(".delete");
 const eqlbtn = document.querySelector(".equals");
+const decimalbtn = document.querySelector(".decimal")
 const display = document.querySelector(".display-text");
 
 let currentNum = '';
@@ -45,6 +46,8 @@ function divide(num1, num2){
 
 function updateDisplay(){
     display.value = currentNum.toString();
+    if (display.value.includes('.')) decimalbtn.disabled = true;
+    else decimalbtn.disabled = false;
 }
 
 function appendNumber(number){
@@ -104,6 +107,10 @@ function initialize(){
         updateDisplay();
         clickedEquals = true;
     });
+    decimalbtn.addEventListener('click', () => {
+        appendNumber(decimalbtn.innerHTML);
+        updateDisplay();
+    })
     clearbtn.addEventListener('click', () => {
         clr();
         updateDisplay();
