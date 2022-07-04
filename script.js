@@ -16,13 +16,13 @@ initialize();
 function operate(num1, num2, operator) {
     switch (operator) {
         case '+':
-            return add(num1, num2);
+            return roundToTwo(add(num1, num2));
         case '-':
-            return subtract(num1, num2);
+            return roundToTwo(subtract(num1, num2));
         case '*':
-            return multiply(num1, num2);
+            return roundToTwo(multiply(num1, num2));
         case '/':
-            return divide(num1, num2);
+            return roundToTwo(divide(num1, num2));
         default:
             return;
     }
@@ -44,10 +44,12 @@ function divide(num1, num2){
     return num1 / num2;
 }
 
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
+}
+
 function updateDisplay(){
     display.value = currentNum.toString();
-    if (display.value.includes('.')) decimalbtn.disabled = true;
-    else decimalbtn.disabled = false;
 }
 
 function appendNumber(number){
@@ -90,6 +92,8 @@ function compute(){
     previousNum = '';
 }
 
+
+
 function initialize(){
     numberButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -119,4 +123,30 @@ function initialize(){
         del();
         updateDisplay();
     });
+    document.addEventListener("keydown", function (event) {
+        if (event.defaultPrevented) {
+            return; // Do nothing if the event was already processed
+        }
+
+        if (event.key >= "0" && event.key <= "9"){
+            appendNumber(event.key);
+            updateDisplay();
+        }
+        else if (event.key == '+' || event.key == '*' || event.key == '-' || event.key == '/'){
+            chooseOperator(event.key);
+        } 
+        else if(event.key == '='){
+            compute()
+            updateDisplay();
+            clickedEquals = true;
+        }
+        else if(event.key =='.'){
+            appendNumber(decimalbtn.innerHTML);
+            updateDisplay();
+        }
+        else if(event.key == "Backspace"){
+            del();
+            updateDisplay();
+        }
+    })
 }
