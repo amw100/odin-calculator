@@ -49,6 +49,8 @@ function roundToTwo(num) {
 }
 
 function updateDisplay(){
+    if(currentNum.toString().includes('.')) decimalbtn.disabled = true;
+    else decimalbtn.disabled = false;
     display.value = currentNum.toString();
 }
 
