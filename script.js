@@ -135,7 +135,7 @@ function initialize(){
         else if (event.key == '+' || event.key == '*' || event.key == '-' || event.key == '/'){
             chooseOperator(event.key);
         } 
-        else if(event.key == '='){
+        else if(event.key == '=' || event.key == 'Enter'){
             compute()
             updateDisplay();
             clickedEquals = true;
